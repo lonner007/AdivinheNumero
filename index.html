@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Adivinhe o número!</h1>
+    <label for="campoPalpite">Adivinhe o número: </label>
+    <input type="number" name="" id="campoPalpite">
+    <button type="button" id="envioPalpite">Enviar</button>
+    <p id="palpites"></p>
+    <p style="font-size: 20px;" id="ultimoResultado"></p>
+    <p id="baixoOuAlto"></p>
+    <script>
+        let numeroAleatorio = Math.floor(Math.random() * 100) + 1;
+
+        let ultimoResultado = document.querySelector("#ultimoResultado");
+        let palpites = document.querySelector("#palpites");
+        let baixoOuAlto = document.querySelector("#baixoOuAlto");
+
+        let envioPalpite = document.querySelector("#envioPalpite");
+        let campoPalpite = document.querySelector("#campoPalpite");
+
+        let contagemPalpites = 1;
+        let botaoReinicio;
+
+        function conferirPalpite() {
+            let palpiteUsuario = Number(campoPalpite.value);
+            if (contagemPalpites === 1) {
+                palpites.textContent = "Palpites anteriores: ";
+            }
+            palpites.textContent += palpiteUsuario + " ";
+
+            if (palpiteUsuario === numeroAleatorio) {
+                ultimoResultado.textContent = "Parabéns! Você acertou!";
+                ultimoResultado.style.backgroundColor = "green";
+                baixoOuAlto.textContent = "";
+                configFimDeJogo();
+            } 
+
+            else if (contagemPalpites === 10) {
+                ultimoResultado.textContent = "!!!FIM DE JOGO!!!";
+                baixoOuAlto.textContent = "";
+                configFimDeJogo();
+            } 
+
+            else if (palpiteUsuario < numeroAleatorio) {
+                ultimoResultado.textContent = "Errado!";
+                ultimoResultado.style.backgroundColor = "red";
+                baixoOuAlto.textContent = "Seu palpite está muito baixo!";
+            }
+            
+            else {
+                ultimoResultado.textContent = "Errado!";
+                baixoOuAlto.textContent = "Seu palpite está muito alto!";
+            }
+
+            contagemPalpites++;
+            campoPalpite.value = "";
+            campoPalpite.focus();
+        }
+
+        envioPalpite.addEventListener("click", conferirPalpite);
+
+    </script>
+</body>
+</html>
